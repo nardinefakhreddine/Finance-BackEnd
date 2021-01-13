@@ -15,7 +15,8 @@ class AdminsController extends Controller
 {
 
     public function index(){
-        return Admins::all();
+         $admins=Admins::paginate(3);
+        return response()->json($admins);
     }
     
        public function CreateAdmin(RegisterRequest $request){
@@ -25,12 +26,12 @@ class AdminsController extends Controller
                [
                    'name'=>$request->name,
                    'email'=>$request->email,
-                   'password'=>Hash::make($request->password),
+                   'password'=>bcrypt($request->password),
                    //OR bcrypt() to hash
                ]);
               // Log a user in and return a jwt for them.
-               $token =auth()->login($admin);
-               return $this->respondWithToken($token);
+              // $token =auth()->login($admin);
+              return response()->json($admin);
                //return the first row of the table
               // $user = Admins::first();
                
@@ -55,12 +56,8 @@ class AdminsController extends Controller
       }catch(JWTException $e){
         return response()->json(['can t create token']);
     }
-
-  
-
    $token =response()->json(compact('token'));
-   // $res=json_decode($token);
-    return [$token,$credentials];
+    return $token;
 
 
 }
@@ -109,7 +106,7 @@ class AdminsController extends Controller
     }
 
 
-    public function updateAdmin(RegisterRequest $request,$id){
+    public function updateAdmin(Request $request,$id){
     
         $admins=admins::find($id);
         $admins->name     = $request->name;
@@ -126,18 +123,23 @@ class AdminsController extends Controller
         $response=response()->json(compact('admins'));
         return $response;
     }
+    public function edit($id){
+          $admin=Admins::find($id);
+          return response()->json($admin);
+    }
 
+    public function getCount(){
+		$admins=Admins::all();
+		$adminsCount=$admins->count();
+		return response()->json(compact('adminsCount'));
+	}
     public function deleteAdmin($id){
         $admins=Admins::find($id);
         $admins->delete();
         return response()->json(compact('admins'));
     }
     
-    public function getCount(){
-		$admins=Admins::all();
-		$adminsCount=$admins->count();
-		return response()->json(compact('adminsCount'));
-	}
+
 
 protected  function respondWithToken($token){
    

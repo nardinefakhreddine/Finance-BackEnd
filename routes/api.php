@@ -21,20 +21,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['middleware'=>['jwt']],function(){
     //Categories Routes
-    Route::post  ('add/category'              , 'CategoryController@addCategory');
-    Route::get   ('get/category'              , 'CategoryController@getCategory');
-    Route::delete('delete/category/{id}'      , 'CategoryController@deleteCategory');
-    Route::get   ('edit/category/{id}'        , 'CategoryController@editCategory');
-    Route::put  ('update/category/{id}'      , 'CategoryController@updateCategory');
+    Route::post  ('/Addcategory'              , 'CategoryController@addCategory');
+    Route::get   ('/categories'              , 'CategoryController@getCategory');
+    Route::delete('/deletecategory/{id}'      , 'CategoryController@deleteCategory');
+    Route::get   ('/editcategory/{id}'        , 'CategoryController@editCategory');
+    Route::put  ('/updatecategory/{id}'      , 'CategoryController@updateCategory');
 
 
 
     //IncomesSource Routes
-    Route::post  ('add/income-source'              , 'IncomeSourceController@addSource');
-    Route::get   ('get/income-source'              , 'IncomeSourceController@getSource');
-    Route::delete('delete/income-source/{id}'      , 'IncomeSourceController@deleteSource');
-    Route::get   ('edit/income-source/{id}'        , 'IncomeSourceController@editSource');
-    Route::put  ('update/income-source/{id}'      , 'IncomeSourceController@updateSource');
+    Route::post  ('/AddSource'              , 'IncomeSourceController@addSource');
+    Route::get   ('/income-sources'              , 'IncomeSourceController@getSource');
+    Route::delete('/deleteincome-source/{id}'      , 'IncomeSourceController@deleteSource');
+    Route::get   ('/editIncomesource/{id}'        , 'IncomeSourceController@editSource');
+    Route::put  ('/updateIncomesource/{id}'      , 'IncomeSourceController@updateSource');
 
     //Test Route
     Route::get('/test', function () {
@@ -43,11 +43,20 @@ Route::group(['middleware'=>['jwt']],function(){
 
    //Expenses Route
     Route::post  ('add/expense'              , 'ExpenseController@addExpense');
-    Route::get   ('get/expense'              , 'ExpenseController@getExpenses');
-    Route::delete('delete/expense/{id}'      , 'ExpenseController@deleteExpense');
+    Route::get   ('/Expenses'              , 'ExpenseController@getFixedExpenses');
+    Route::get   ('/ReccurentExpenses'              , 'ExpenseController@getReccurentExpenses');
+    Route::delete('/deleteExpense/{id}'      , 'ExpenseController@deleteExpense');
     Route::get   ('getCount/expense','ExpenseController@getCount');
     Route::put  ('update/expense/{id}'      , 'ExpenseController@updateExpense');
     Route::get   ('edit/expense/{id}'        , 'ExpenseController@editExpense');
+
+       //Expenses Route
+       Route::post  ('/AddExpense'              , 'ExpenseController@add');
+       Route::get   ('/GetExpenses'              , 'ExpenseController@get');
+       Route::delete('/DeleteExpense/{id}'      , 'ExpenseController@delete');
+       Route::get   ('/getCountExpense','ExpenseController@getCount');
+       Route::put  ('/UpdateExpense/{id}'      , 'ExpenseController@update');
+       Route::get   ('/EditExpense/{id}'        , 'ExpenseController@edit');
 
 });
 
@@ -56,9 +65,12 @@ Route::group(['middleware'=>['jwt']],function(){
 Route::post('/CreateAdmin', 'AdminsController@CreateAdmin');
 Route::post('/login', 'AdminsController@login');
 Route::post('/logout', 'AdminsController@logout');
-Route::get('/getAdmin', 'AdminsController@getAdmin');
+//Get and Manage Admin
+Route::get('/Admins', 'AdminsController@index');
 Route::get('/getCount','AdminsController@getCount');
-Route::delete('/deleteAdmin/{id}','AdminsController@deleteAdmin');
+Route::get('/editAdmin/{id}','AdminsController@edit');
 Route::put('/updateAdmin/{id}','AdminsController@updateAdmin');
+Route::delete('/deleteAdmin/{id}','AdminsController@deleteAdmin');
+
 
 //Test Route

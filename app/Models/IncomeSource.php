@@ -10,7 +10,7 @@ class IncomeSource extends Model
     protected $fillable   = ['name','description','photo'];
     public    $timestamps = false;
 
- /*  public function incomes(){
-        return $this->hasMany('App\Models\IncomeSource','income_source_id');
-    }*/
+  public function incomes(){
+        return $this->hasMany('App\Models\Income','source_id');
+    }
 }

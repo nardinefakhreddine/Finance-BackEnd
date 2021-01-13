@@ -27,9 +27,13 @@ class ExpenseController extends Controller
         return response()->json(compact('expense'));
     }
 
-    public function getExpenses(){
-        $expenses=Expense::orderBy('id','desc')->paginate(5);
-        return response()->json(compact('expenses'));
+    public function getFixedExpenses(){
+        $expenses=Expense::where('status',1)->paginate(4);
+        return response()->json($expenses);
+    }
+    public function getReccurentExpenses(){
+        $expenses=Expense::where('status',0)->paginate(4);
+        return response()->json($expenses);
     }
     public function editExpense($id){
         $expense=Expense::find($id);

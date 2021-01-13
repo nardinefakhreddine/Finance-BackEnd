@@ -8,6 +8,12 @@ use App\Http\Requests\CategoryRequest;
 
 class CategoryController extends Controller
 {
+public function index(){
+    $categories=Category::all();
+    return response()->json($categories);
+}
+
+
     public function addCategory(CategoryRequest $request ){
 
         //$fileName=$this->UploadPhoto($request->file('photo') , 'images/category');
@@ -15,7 +21,7 @@ class CategoryController extends Controller
             'name'        => $request->get('name'),
             'description' => $request->get('description'),
             'photo'       => $request->get('photo')
-           // 'photo'       => $fileName,
+            //'photo'       => $fileName,
         ]      
         );
        
@@ -25,7 +31,7 @@ class CategoryController extends Controller
 
     public function getCategory(){
         $categories=Category::paginate(5);
-        return response()->json(compact('categories'));
+        return response()->json($categories);
     }
 
     public function deleteCategory($id){
@@ -33,9 +39,16 @@ class CategoryController extends Controller
         $categories->delete();
     }
 
-    public function updateCategory(CategoryRequest $request ,$id){
+
+    public function editCategory($id){
+        $category=Category::find($id);
+        return response()->json($category);
+    }
+
+    public function updateCategory(Request $request ,$id){
 
         $category=Category::find($id);
+
         $category->name=$request->name;
         $category->description=$request->description;
         $category->save();
@@ -43,8 +56,5 @@ class CategoryController extends Controller
 
     }
 
-    public function editCategory($id){
-        $category=Category::find($id);
-        return response()->json(compact('category'));
-    }
+  
 }

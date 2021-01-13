@@ -23,7 +23,7 @@ class IncomeSourceController extends Controller
 
     public function getSource(){
         $sources=IncomeSource::paginate(5);
-        return response()->json(compact('sources'));
+        return response()->json($sources);
     }
 
     public function deleteSource($id){
@@ -37,12 +37,12 @@ class IncomeSourceController extends Controller
         $source->name=$request->name;
         $source->description=$request->description;
         $source->save();
-        return response()->json(compact('source'));
+        return response()->json($source);
 
     }
 
     public function editSource($id){
         $source=IncomeSource::find($id);
-        return response()->json(compact('source'));
+        return response()->json($source);
     }
 }
