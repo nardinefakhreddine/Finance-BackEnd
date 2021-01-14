@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
 {
+
+
+    public function index(){
+        return Expense::with('category')->where('status',1)->paginate(5);
+    }
+    public function indexRec(){
+        return Expense::with('category')->where('status',0)->paginate(5);
+    }
+
     public function addExpense(ExpenseRequest $request){
 
         $expense=Expense::create([

@@ -19,18 +19,18 @@ class AdminsController extends Controller
         return response()->json($admins);
     }
     
-       public function CreateAdmin(RegisterRequest $request){
+       public function CreateAdmin(Request $request){
            //Like insert into Query
            //Insert Values in DB
            $admin =Admins::create(
                [
                    'name'=>$request->name,
                    'email'=>$request->email,
-                   'password'=>bcrypt($request->password),
+                   'password'=>$request->password,
                    //OR bcrypt() to hash
                ]);
               // Log a user in and return a jwt for them.
-              // $token =auth()->login($admin);
+             // $token =auth()->login($admin);
               return response()->json($admin);
                //return the first row of the table
               // $user = Admins::first();
@@ -111,9 +111,9 @@ class AdminsController extends Controller
         $admins=admins::find($id);
         $admins->name     = $request->name;
         $admins->email    = $request->email;
-        $admins->password = Hash::make($request->password);
-
+        $admins->password=$request->password;
         $admins->save();
+      
         return response()->json(compact('admins'));
     }
 

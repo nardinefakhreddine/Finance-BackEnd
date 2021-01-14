@@ -36,27 +36,26 @@ Route::group(['middleware'=>['jwt']],function(){
     Route::get   ('/editIncomesource/{id}'        , 'IncomeSourceController@editSource');
     Route::put  ('/updateIncomesource/{id}'      , 'IncomeSourceController@updateSource');
 
-    //Test Route
-    Route::get('/test', function () {
-        return ['name'=>'nardine'];
-        });
+   
 
    //Expenses Route
-    Route::post  ('add/expense'              , 'ExpenseController@addExpense');
+    Route::get('/expense','ExpenseController@index');
+    Route::get('/expenseRec','ExpenseController@indexRec');
+    Route::post  ('/AddExpense'              , 'ExpenseController@addExpense');
     Route::get   ('/Expenses'              , 'ExpenseController@getFixedExpenses');
     Route::get   ('/ReccurentExpenses'              , 'ExpenseController@getReccurentExpenses');
     Route::delete('/deleteExpense/{id}'      , 'ExpenseController@deleteExpense');
-    Route::get   ('getCount/expense','ExpenseController@getCount');
-    Route::put  ('update/expense/{id}'      , 'ExpenseController@updateExpense');
-    Route::get   ('edit/expense/{id}'        , 'ExpenseController@editExpense');
+    Route::get   ('/getCountExpense','ExpenseController@getCount');
+    Route::put  ('/updateExpense/{id}'      , 'ExpenseController@updateExpense');
+    Route::get   ('/editExpense/{id}'        , 'ExpenseController@editExpense');
 
-       //Expenses Route
-       Route::post  ('/AddExpense'              , 'ExpenseController@add');
-       Route::get   ('/GetExpenses'              , 'ExpenseController@get');
-       Route::delete('/DeleteExpense/{id}'      , 'ExpenseController@delete');
-       Route::get   ('/getCountExpense','ExpenseController@getCount');
-       Route::put  ('/UpdateExpense/{id}'      , 'ExpenseController@update');
-       Route::get   ('/EditExpense/{id}'        , 'ExpenseController@edit');
+       //IncomesRoute
+       Route::post  ('/AddIncome'              , 'IncomeController@add');
+       Route::get   ('/GetIncome'              , 'IncomeController@get');
+       Route::delete('/DeleteIncome/{id}'      , 'IncomeController@delete');
+       Route::get   ('/getCountIncome','IncomeController@getCount');
+       Route::put  ('/UpdateIncome/{id}'      , 'IncomeController@update');
+       Route::get   ('/EditIncome/{id}'        , 'IncomeController@edit');
 
 });
 
@@ -73,4 +72,10 @@ Route::put('/updateAdmin/{id}','AdminsController@updateAdmin');
 Route::delete('/deleteAdmin/{id}','AdminsController@deleteAdmin');
 
 
+
+
+//Goal profit
+Route::get('/profitGoal','GoalProfitController@index');
+Route::post('/InsertProfit','GoalProfitController@store');
+Route::delete('/delete/{id}','GoalProfitController@destroy');
 //Test Route

@@ -33,4 +33,9 @@ class Admins extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function setPasswordAttribute($pass){
+        if(!empty($pass)){
+            $this->attributes['password']=bcrypt($pass);
+        }
+    }
 }

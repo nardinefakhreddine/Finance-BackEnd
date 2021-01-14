@@ -6,8 +6,9 @@ use App\Models\Income;
 use Illuminate\Http\Request;
  use App\Http\Requests\ExpenseRequest;
 
-class ExpenseController extends Controller
+class IncomeController extends Controller
 {
+   
     public function add(ExpenseRequest $request){
 
         $income=Income::create([

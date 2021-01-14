@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\GoalProfit;
 use Illuminate\Http\Request;
-
+use App\Models\Profit;
 class GoalProfitController extends Controller
 {
     /**
@@ -14,7 +14,8 @@ class GoalProfitController extends Controller
      */
     public function index()
     {
-        //
+        $profit=Profit::get();
+        return $profit;
     }
 
     /**
@@ -24,7 +25,7 @@ class GoalProfitController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,7 +36,15 @@ class GoalProfitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $profit=Profit::create([
+        'company'        => $request->get('company'),
+        'amount' => $request->get('amount'),
+        'currency'      => $request->get('currency'),//fixed or reccurent
+        'amount'       => $request->get('amount'),
+        'startdate'=>$request->get('startdate'),
+        'enddate'=>$request->get('enddate'),
+       ]);
+       return response()->json($profit);
     }
 
     /**
@@ -78,8 +87,9 @@ class GoalProfitController extends Controller
      * @param  \App\GoalProfit  $goalProfit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GoalProfit $goalProfit)
+    public function destroy($id)
     {
-        //
+         $profit=Profit::find($id)->delete();
+         return response()->json(['succesDelete']);
     }
 }
