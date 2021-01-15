@@ -24,7 +24,7 @@ class ExpenseController extends Controller
             'description' => $request->get('description'),
             'status'      => $request->get('status'),//fixed or reccurent
             'amount'       => $request->get('amount'),
-            'date'        => now(),
+            'date'        => $request->get('date'),
             'currency'     => $request->get('currency'),
             'startdate'=>$request->get('startdate'),
             'enddate'=>$request->get('enddate'),
