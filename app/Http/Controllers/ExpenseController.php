@@ -45,8 +45,8 @@ class ExpenseController extends Controller
         return response()->json($expenses);
     }
     public function editExpense($id){
-        $expense=Expense::find($id);
-        return response()->json(compact('expense'));
+        $expense=Expense::with('category')->find($id);
+        return response()->json($expense);
     }
 
     public function updateExpense(ExpenseRequest  $request,$id){

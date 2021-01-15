@@ -17,10 +17,10 @@ class CreateExpensesTable extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('description');
-            $table->string('amount');
+            $table->double('amount');
             $table->integer('status');//0=fixed and 1 =reccurent
             $table->string('currency')->default('dollar');
-            $table->date('date');
+            $table->date('date')->nullable();
             $table->date('startdate')->nullable();
             $table->date('enddate')->nullable();
             $table->foreignId('category_id')->constrained('category')->onDelete('cascade')->onUpdate('cascade');
