@@ -10,11 +10,12 @@ class ChartController extends Controller
 {
    public function sumFixedExpenses(){
 
-$fixed=DB::select('SELECT sum(amount)as totalExpenses , category.name from expenses INNER JOIN category on(expenses.category_id=category.id and expenses.status=1) GROUP by(category_id)');
+$fixed=DB::select('SELECT DATE_FORMAT(date, "%Y") AS year, SUM(amount)As TotalsExpenses,category.name from expenses inner JOIN category on(expenses.category_id=category.id)where expenses.status=1 GROUP BY DATE_FORMAT(date, "%Y"),category_id');
 
- return $fixed;
+ return response()->json($fixed);
 }
 }
 /*
-SELECT sum(amount)as totalExpenses , category.name from expenses INNER JOIN category on(expenses.category_id=category.id and expenses.status=1) GROUP by(category_id)
+SELECT DATE_FORMAT(date, "%Y-%M") AS Month , SUM(amount)As TotalsExpenses from expenses where expenses.status=1 GROUP BY DATE_FORMAT(date, "%Y-%M")
+
 */ 
