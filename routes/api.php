@@ -78,4 +78,5 @@ Route::delete('/deleteAdmin/{id}','AdminsController@deleteAdmin');
 Route::get('/profitGoal','GoalProfitController@index');
 Route::post('/InsertProfit','GoalProfitController@store');
 Route::delete('/delete/{id}','GoalProfitController@destroy');
-//Test Route
+//Chart Route
+Route::get('/Sum','ChartController@sumFixedExpenses');
