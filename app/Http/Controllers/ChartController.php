@@ -9,14 +9,11 @@ use App\Models\Expense;
 class ChartController extends Controller
 {
 public function ExpensesbyYear(Request $request){
-    $year1=$request->year1;
-    $year2=$request->year2;
     $data=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name 
     from expenses
      inner JOIN category on(expenses.category_id=category.id)
     where (expenses.status=1 and DATE_FORMAT(date, "%Y")=2020)
-     or (expenses.status=0 and 2020 between DATE_FORMAT(date, "%Y") and DATE_FORMAT(startdate, "%Y"))
-     
+    or (expenses.status=0 and 2020 between DATE_FORMAT(startdate, "%Y") and DATE_FORMAT(enddate, "%Y"))
     GROUP BY category_id
    
     ');
