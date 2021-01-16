@@ -79,4 +79,4 @@ Route::get('/profitGoal','GoalProfitController@index');
 Route::post('/InsertProfit','GoalProfitController@store');
 Route::delete('/delete/{id}','GoalProfitController@destroy');
 //Chart Route
-Route::get('/Sum','ChartController@sumFixedExpenses');
+Route::get('/Sum','ChartController@ExpensesbyYear');
