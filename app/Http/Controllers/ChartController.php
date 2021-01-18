@@ -28,14 +28,17 @@ public function ExpensesbyYear(Request $request){
 }
 public function ExpensesbyMonth(Request $year){
     $month=[1,2,3,4,5,6,7,8,9,10,11,12];
-  
+     $year=2020;
     $data=[];
     foreach ($month as $key => $value) {
     $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name 
     from expenses
     inner JOIN category on(expenses.category_id=category.id)
-    where (expenses.status=1 and Month(date)='.$value.')
-    or (expenses.status=0 and   expenses.reccurence="monthly"  and '.$value.' between Month(startdate) and Month(enddate))
+    where (expenses.status=1 and Month(date)='.$value.' and Year(date)='.$year.')
+    or (expenses.status=0 and   expenses.reccurence="monthly"  and '.$value.' between Month(startdate) and Month(enddate)
+    and '.$year.' between Year(startdate) and Year(enddate)
+    
+    )
     GROUP BY category_id
     
    
