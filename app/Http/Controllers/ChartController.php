@@ -26,9 +26,9 @@ public function ExpensesbyYear(Request $request){
 
  return response()->json(compact('data'));
 }
-public function ExpensesbyMonth(Request $year){
+public function ExpensesbyMonth(Request $request){
     $month=[1,2,3,4,5,6,7,8,9,10,11,12];
-     $year=2020;
+     $year=$request->year;
     $data=[];
     foreach ($month as $key => $value) {
     $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name 
@@ -45,14 +45,34 @@ public function ExpensesbyMonth(Request $year){
     ');
     }
 
- return response()->json(compact('data'));
+ return response()->json($data);
 }
 
 
-
-
+public function ExpensesbyWeek(Request $request){
+    $year=$request->year;
+    $month=$request->month;
+    $data=[];
+    for ($i=0;$i<4;$i++){
+    $data[]=DB::select('SELECT SUM(amount)/4 As TotalsExpenses,category.name 
+    from expenses
+    inner JOIN category on(expenses.category_id=category.id)
+    where (expenses.status=1 and Month(date)='.$month.' and Year(date)='.$year.')
+    or (expenses.status=0 and   expenses.reccurence="monthly"  and '.$month.' between Month(startdate) and Month(enddate)
+    and '.$year.' between Year(startdate) and Year(enddate)
+    
+    )
+    GROUP BY category_id
+    }
+   
+    ');
+    return response()->json($data);
+    }
+    
 
 }
+
+
 
 //SELECT amount*DATEDIFF(enddate,startdate)AS amount, FROM `expenses`
 /*

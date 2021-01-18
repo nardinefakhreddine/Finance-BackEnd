@@ -80,4 +80,4 @@ Route::post('/InsertProfit','GoalProfitController@store');
 Route::delete('/delete/{id}','GoalProfitController@destroy');
 //Chart Route
 Route::get('/yearly','ChartController@ExpensesbyYear');
-Route::get('/monthly','ChartController@ExpensesbyMonth');
+Route::post('/monthly','ChartController@ExpensesbyMonth');
