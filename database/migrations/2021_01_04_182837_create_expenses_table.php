@@ -19,6 +19,7 @@ class CreateExpensesTable extends Migration
             $table->string('description');
             $table->double('amount');
             $table->integer('status');//0=fixed and 1 =reccurent
+            $table->string('reccurence')->nullable()->default('yearly');
             $table->string('currency')->default('dollar');
             $table->date('date')->nullable();
             $table->date('startdate')->nullable();
