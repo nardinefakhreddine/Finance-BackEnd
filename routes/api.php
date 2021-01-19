@@ -81,3 +81,5 @@ Route::delete('/delete/{id}','GoalProfitController@destroy');
 //Chart Route
 Route::get('/yearly','ChartController@ExpensesbyYear');
 Route::post('/monthly','ChartController@ExpensesbyMonth');
+
+Route::post('/weekly','ChartController@ExpensesbyWeek');

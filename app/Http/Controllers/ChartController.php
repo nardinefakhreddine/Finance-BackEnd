@@ -24,10 +24,10 @@ public function ExpensesbyYear(Request $request){
     ');
     }
 
- return response()->json(compact('data'));
+ return response()->json($data);
 }
 public function ExpensesbyMonth(Request $request){
-    $month=[1,2,3,4,5,6,7,8,9,10,11,12];
+     $month=[1,2,3,4,5,6,7,8,9,10,11,12];
      $year=$request->year;
     $data=[];
     foreach ($month as $key => $value) {
@@ -43,7 +43,9 @@ public function ExpensesbyMonth(Request $request){
     
    
     ');
+
     }
+   
 
  return response()->json($data);
 }
@@ -63,12 +65,12 @@ public function ExpensesbyWeek(Request $request){
     
     )
     GROUP BY category_id
-    }
-   
-    ');
-    return response()->json($data);
-    }
     
+   
+    ');}
+    return response()->json($data);
+   
+}
 
 }
 
