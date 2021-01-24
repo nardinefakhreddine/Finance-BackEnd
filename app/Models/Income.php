@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Income extends Model
-{     protected $table      = 'expenses';
+{     protected $table      = 'incomes';
     protected $fillable   = ['title','description','amount','status','currency','date','startdate','enddate','source_id'];
     public    $timestamps = false;
     

@@ -9,7 +9,9 @@ use Illuminate\Http\Request;
 class ExpenseController extends Controller
 {
 
-
+    public function get(){
+        return Expense::with('category')->get();
+    }
     public function index(){
         return Expense::with('category')->where('status',1)->paginate(5);
     }
@@ -26,6 +28,7 @@ class ExpenseController extends Controller
             'amount'       => $request->get('amount'),
             'date'        => $request->get('date'),
             'currency'     => $request->get('currency'),
+            'reccurence'=>$request->get('reccurence'),
             'startdate'=>$request->get('startdate'),
             'enddate'=>$request->get('enddate'),
             'category_id' => $request->get('category_id'),

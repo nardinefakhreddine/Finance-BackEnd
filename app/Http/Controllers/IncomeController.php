@@ -8,36 +8,50 @@ use Illuminate\Http\Request;
 
 class IncomeController extends Controller
 {
-   
-    public function add(ExpenseRequest $request){
+    public function get(){
+        return Income::with('source')->get();
+    }
+    public function index(){
+        return Income::with('source')->where('status',1)->paginate(5);
+    }
+    public function indexRec(){
+        return Income::with('source')->where('status',0)->paginate(5);
+    }
+
+    public function addIncome(Request $request){
 
         $income=Income::create([
             'title'        => $request->get('title'),
             'description' => $request->get('description'),
             'status'      => $request->get('status'),//fixed or reccurent
             'amount'       => $request->get('amount'),
-            'date'        => now(),
+            'date'        => $request->get('date'),
             'currency'     => $request->get('currency'),
+            'reccurence'=>$request->get('reccurence'),
             'startdate'=>$request->get('startdate'),
             'enddate'=>$request->get('enddate'),
-            'category_id' => $request->get('category_id'),
+            'source_id' => $request->get('source_id'),
         ]
         );
 
 
-        return response()->json(compact('income'));
+        return response()->json($income);
     }
 
-    public function get(){
-        $incomes=Income::orderBy('id','desc')->paginate(5);
-        return response()->json(compact('incomes'));
+    public function getFixedIncomes(){
+        $$income=Income::where('status',1)->paginate(4);
+        return response()->json($income);
     }
-    public function edit($id){
-        $income=Income::find($id);
-        return response()->json(compact('income'));
+    public function getReccurentIncomes(){
+        $income=Income::where('status',0)->paginate(4);
+        return response()->json($income);
+    }
+    public function editIncome($id){
+        $income=Income::with('category')->find($id);
+        return response()->json($income);
     }
 
-    public function update(ExpenseRequest  $request,$id){
+    public function updateIncome(ExpenseRequest  $request,$id){
         
         $income=Income::find($id);
 
@@ -51,17 +65,18 @@ class IncomeController extends Controller
 
         $income->save();
         
-        return response()->json(compact('income'));
+        return response()->json($income);
     }
 
   public function getCount(){
       $income=Income::all();
-      $incomesCount=$income->count();
-      return response()->json(compact('incomesCount'));
+      $incomeCount=$expense->count();
+      return response()->json($incomeCount);
   }
-    public function delete($id){
+    public function deleteIncome($id){
         $income=Income::find($id);
         $income->delete();
     }
+
 
 }

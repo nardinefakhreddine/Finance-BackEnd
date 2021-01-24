@@ -9,15 +9,16 @@ use App\Models\Expense;
 class ChartController extends Controller
 {
 public function ExpensesbyYear(Request $request){
-    $year=['2018','2019','2020','2021','2022'];
+    $year=['2019','2020','2021','2022','2023'];
     $data=[];
     foreach ($year as $key => $value) {    
-    $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name 
+    $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name,'.$value.' as year
     from expenses
     inner JOIN category on(expenses.category_id=category.id)
     where (expenses.status=1 and DATE_FORMAT(date, "%Y")='.$value.')
-    or (expenses.status=0 and   expenses.reccurence="yearly"  and '.$value.' between DATE_FORMAT(startdate, "%Y") and DATE_FORMAT(enddate, "%Y"))
+    or (expenses.status=0    and '.$value.' between DATE_FORMAT(startdate, "%Y") and DATE_FORMAT(enddate, "%Y"))
     GROUP BY category_id
+    order by category.name desc
     ');
     }
     /*
@@ -29,22 +30,43 @@ public function ExpensesbyYear(Request $request){
    ->select([DB::raw("SUM(debit) as total_debit"), DB::raw("SUM(credit) as total_credit")])
    ->groupBy('id')
    ->get() */
-    return response()->json($data);
- 
+  /*$years=array();
+   $categories=array();
+   $total=array();
+   for ($i=0;$i<count($data);$i++){
+    for ($j=0;$j<count($data[$i]);$j++){
+     array_push($years,$data[$i][$j]->year);
+     array_push($categories,$data[$i][$j]->name);
+     array_push($total,$data[$i][$j]->TotalsExpenses);
+    }
 }
+return response()->json([
+    'Years'=>$years,
+    'category'=>$categories,
+    'total'=>$total
+
+]);*/
+return $data;
+}
+
+
+
+ 
+
 public function ExpensesbyMonth(Request $request){
      $month=[1,2,3,4,5,6,7,8,9,10,11,12];
      $year=$request->year;
     $data=[];
     foreach ($month as $key => $value) {
-    $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name 
+    $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses,category.name,'.$value.' as month
     from expenses
     inner JOIN category on(expenses.category_id=category.id)
     where (expenses.status=1 and Month(date)='.$value.' and Year(date)='.$year.')
-    or (expenses.status=0   and '.$value.' between Month(startdate) and Month(enddate)
-    and '.$year.' between Year(startdate) and Year(enddate)
+    or
+    (expenses.status=0 and '.$value.' between Month(startdate) and Month(enddate)   and '.$year.'  between DATE_FORMAT(startdate, "%Y") and DATE_FORMAT(enddate, "%Y"))
     
-    )
+    
+    
     GROUP BY category_id
     
    
@@ -79,8 +101,7 @@ public function ExpensesbyWeek(Request $request){
             where (expenses.status=1  and expenses.date between "'.$start.'" and "'.$end.'")
             or (expenses.status=0 and ("'.$start.'" between expenses.startdate and  expenses.enddate  or "'.$end.'" between expenses.startdate  and expenses.enddate))
             GROUP BY category_id ');
-          
-// Push the data to $result
+        
         $i+=7;
         $j++; 
     }
@@ -92,8 +113,32 @@ public function ExpensesbyWeek(Request $request){
 
 }
 
+public function yearly(){
+    $category = DB::table('category')->get();
+    $categories=[];
+    foreach ($category as $cat) {
+       array_push($categories,$cat->id);
+    }
+    $data=[];
+    $year=['2019','2020','2021','2022','2023'];
+    
+        foreach($year as $value){
+            $data[]=DB::select('SELECT SUM(amount)As TotalsExpenses
+    from expenses
+    where(status=1 and category_id=1 and Year(date)='.$value.')
+      or 
+      (status=0 and category_id= 1 and '.$value.' between Year(startdate) and Year(enddate))
+ 
+    ');
+           
+        }
+    
+   return $data;
+
 }
 
+
+}
 
 
 //SELECT amount*DATEDIFF(enddate,startdate)AS amount, FROM `expenses`
